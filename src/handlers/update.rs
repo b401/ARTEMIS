@@ -34,8 +34,6 @@ where
 
 fn verify_signature(secret: &str, body: &[u8], github_sig: &str) -> bool {
     let digest: String = compute_digest(secret, body);
-    println!("{:?}", github_sig);
-    println!("{:?}", digest);
     digest.eq_ignore_ascii_case(github_sig)
 }
 
@@ -60,7 +58,7 @@ fn to_hex(data: &[u8]) -> String {
 fn github_secret(headers: &HeaderMap) -> Option<String> {
     headers
         .get(X_HUB_SIGNATURE_256)
-        .and_then(|hv| hv.to_str().unwrap().split('=').next())
+        .and_then(|hv| hv.to_str().unwrap().split('=').nth(1))
         .and_then(|s| s.trim().parse::<String>().ok())
 }
 
