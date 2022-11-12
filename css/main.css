@@ -4,7 +4,6 @@ html {
   word-wrap: none;
 }
 
-
 html, body {
   margin: 0;
   padding: 0;
@@ -73,6 +72,9 @@ article > h1::before {
 
 a, body {
   color: rgba(255,255,255,0.87);
+}
+
+nav {
   user-select: none;
 }
 
