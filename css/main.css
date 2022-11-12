@@ -173,6 +173,8 @@ label {
 
 h1 {
   position: relative;
+  display: inline-block;
+  overflow: hidden;
   padding: 20px 0 30px;
   margin: 0;
 }

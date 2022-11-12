@@ -3,6 +3,7 @@
   <meta name="description" content="IT wiki about security and other stuff">
   <meta name="keywords" content="IT,security,secops,hacking,redteam,blueteam">
   <meta name="author" content="{{ metadata.author }}">
+  <title>{{ metadata.title }}</title>
 {% endblock %}
 
 {% block title %} Index {% endblock %}
@@ -13,7 +14,7 @@
 #}
   <article>
 	<header id="title">
-	  <h1 id="title"> {{ metadata.title }}</h1>
+	  <h1 id="title">{{ metadata.title }}</h1>
 	</header>
 	{{ content.clone()|markdown }}
   </article>
