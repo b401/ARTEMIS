@@ -153,7 +153,6 @@ h5,
 h6,
 label {
   line-height: 1.3em;
-  text-overflow: ellipsis;
   white-space: nowrap
 }
 
@@ -174,11 +173,8 @@ label {
 
 h1 {
   position: relative;
-  display: inline-block;
-  display: table-cell;
   padding: 20px 0 30px;
   margin: 0;
-  overflow: hidden;
 }
 
 label::before {
