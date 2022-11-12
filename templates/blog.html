@@ -1,0 +1,12 @@
+
+{% extends "base.html" %}
+<dl>>
+{% block content %}
+  <dt><h1>Posts</h1></dt>
+  {% for c in posts %}
+  {% if c.metadata.title.len() > 0 -%}
+    <dd>{{ c.metadata.date }} - <a href="{{site}}/blog/{{c.metadata.title}}">{{c.metadata.title}}</a></dd>
+  {% endif -%}
+  {% endfor %}
+</dl>
+{% endblock %}

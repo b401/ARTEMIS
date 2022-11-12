@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/css/main.css">
+	<meta charset="UTF-8">
+	{% block meta %}{% endblock %}
+  </head>
+  <body>
+	{# dumb solution lol #}
+	{% let site = "http://localhost:8080" %}
+    <div id="container">
+	  <header>
+		<nav class="main-nav" role="navigation" aria-label="Main menu">
+		  <a href="{{site}}" class="nav-brand logo-brand">i401</a>
+		  -
+		  <a href="{{site}}/blog">Blog</a>
+		  -
+		  <a href="{{site}}/wiki">Wiki</a>
+		  -
+		  <a href="{{site}}/contact">Contact</a>
+		</nav>
+	  </header>
+	  <main>
+		{% block content %}{% endblock %}
+	  </main>
+	<footer>
+	  <hr>
+	  <span>
+	  >> This <a href="https://github.com/b401/artemis">blog</a>.
+	  </span>
+	</footer>
+    </div>
+  </body>
+</html>

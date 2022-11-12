@@ -1,0 +1,228 @@
+html {
+  font-size: 1rem;
+  background-color: #121212;
+  word-wrap: none;
+}
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+  text-rendering: geometricPrecision;
+}
+
+
+pre {
+	padding: 16px;
+	overflow: auto;
+	font-size: 85%;
+	line-height: 1.45;
+	background-color: #161b22;
+	border-radius: 6px;
+}
+
+img {
+  max-width: 100%;
+}
+
+body {
+  line-height: 1.5rem;
+  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+    Bitstream Vera Sans Mono, Courier New, monospace, serif;
+  word-wrap: break-word;
+  height: 99vh;
+}
+
+blockquote {
+  opacity: 60%;
+}
+
+.byline {
+	justify-content: space-between;
+}
+.meta::before {
+	content: none;
+}
+
+article {
+	margin-bottom: auto;
+}
+
+div#meta {
+	margin-top: auto;
+}
+
+
+article > h1::after {
+	content: "";
+}
+
+article > h1::before {
+	content: "# ";
+}
+
+#url_wiki::after {
+	white-space: nowrap;
+	content: "------------------------------------------------------------------------"
+}
+
+
+a, body {
+  color: rgba(255,255,255,0.87);
+  user-select: none;
+}
+
+#container {
+  display: flex;
+  max-width: 70rem;
+  margin: 1em auto;
+  margin-top: 0;
+  padding: 0 1rem;
+  flex-flow: column;
+  height: 99%;
+}
+
+#navbar_wiki {
+	flex-flow: row;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+
+header {
+  margin-top: 1em;
+}
+
+header > h1::before{
+	content: "";
+}
+
+
+main {
+  display: inherit;
+  flex-flow: column;
+  flex-grow: 1;
+}
+
+nav {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1rem;
+}
+
+main div {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+#bg {
+  width: 35vh;
+  padding: 2vh;
+}
+
+footer {
+	display: inherit;
+	flex-flow: column;
+	align-items: flex-start;
+}
+
+footer hr {
+  border: 0;
+  width: 50%;
+  overflow: hidden;
+}
+
+footer hr::before {
+  white-space: nowrap;
+  width: 50%;
+  content: "-------------------------------------------------------";
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label {
+  line-height: 1.3em;
+  text-overflow: ellipsis;
+  white-space: nowrap
+}
+
+#contact {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-around;
+	height: 100%;
+}
+
+.info {
+	flex-direction: column;
+	flex-wrap: inherit;
+	justify-content: center;
+	align-items: baseline;
+	gap: 0.5em;
+}
+
+h1 {
+  position: relative;
+  display: inline-block;
+  display: table-cell;
+  padding: 20px 0 30px;
+  margin: 0;
+  overflow: hidden;
+}
+
+label::before {
+  content: "# ";
+}
+
+div.info p{
+	margin: 0;
+}
+
+
+
+h1::before {
+  content: "# ";
+}
+
+main > h1 {
+	display: inherit;
+	flex-basis: auto;
+}
+
+dt {
+	display: inherit;
+	flex-basis: auto;
+}
+
+#i4::after, h1::after {
+  white-space: nowrap;
+  content: "-------------------------------------------";
+  position: absolute;
+  bottom: 1vh;
+  left: 0;
+}
+
+h1 + * {
+  margin-top: 0;
+}
+
+h2:before {
+  content: "## ";
+}
+
+h3:before {
+  content: "### ";
+}
+
+h4:before {
+  content: "#### ";
+}

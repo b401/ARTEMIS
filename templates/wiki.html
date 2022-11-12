@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block meta %}
+  <meta name="description" content="IT wiki about security and other stuff">
+  <meta name="keywords" content="IT,security,secops,hacking,redteam,blueteam">
+  {% match content %}
+	{% when Some with (val) %}
+		<meta name="author" content="{{ val.metadata.author }}">
+	{% when None %}
+  {% endmatch %}
+
+{% endblock %}
+<dl>
+{% block content %}
+  <dt><h1 id="url_wiki">Wiki : ./{{ current }}</h1></dt>
+  <div id="navbar_wiki">
+  <p> <a href="../">../</a> </p>
+  {% if folders.len() > 0 || documents.len() > 0 %}
+  <ul>
+	{% for i in folders%}
+	{% if !i.is_empty() %}
+	  <li><a href="/wiki/{{ current }}{{ i }}/">./{{i}}/</a></li>
+	{% endif %}
+	{% endfor %}
+
+	{% for i in documents %}
+	  {% if !i.is_empty() %}
+	  <li><a href="/wiki/{{ current }}{{ i }}">./{{i}}</a></li>
+	  {% endif %}
+	 {% endfor %}
+
+  </ul>
+  {% endif %}
+  </div>
+
+  {% match content %}
+	{% when Some with (val) %}
+	<article>
+		{{ val.content.clone()|markdown }}
+	</article>
+	<div id="meta" class="byline">
+		<div>
+		<label class="meta">Author: </label>
+		<address class="author">{{ val.metadata.author }}</address>
+		</div>
+		<div>
+		<label class="meta">Date: </label>
+		<time pubdate datetime="{{ val.metadata.date }}">{{ val.metadata.date }}</time>
+		</div>
+	</div>
+	{% when None %}
+  {% endmatch %}
+  
+</dl>
+{% endblock %}

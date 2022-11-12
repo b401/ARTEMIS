@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block meta %}
+  <meta name="description" content="IT wiki about security and other stuff">
+  <meta name="keywords" content="IT,security,secops,hacking,redteam,blueteam">
+  <meta name="author" content="{{ metadata.author }}">
+{% endblock %}
+
+{% block title %} Index {% endblock %}
+
+{% block content %}
+{#
+  Kinda dumb that I have to use clone (Maybe there is a better way?)
+#}
+  <article>
+	<header id="title">
+	  <h1 id="title"> {{ metadata.title }}</h1>
+	</header>
+	{{ content.clone()|markdown }}
+  </article>
+  <div id="meta "class="byline">
+	<div>
+	  <label class="meta">Author: </label>
+	  <address class="author">{{ metadata.author }}</address>
+	</div>
+	<div>
+	  <label class="meta">Date: </label>
+	  <time pubdate datetime="{{ metadata.date }}">{{ metadata.date }}</time>
+	</div>
+  </div>
+{% endblock %}
