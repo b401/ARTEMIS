@@ -70,12 +70,16 @@ article > h1::before {
 }
 
 
-a, body {
+body {
   color: rgba(255,255,255,0.87);
 }
 
 nav {
   user-select: none;
+}
+
+a, code {
+	color: rgba(255,255,255,0.87);
 }
 
 #container {
@@ -153,6 +157,7 @@ h5,
 h6,
 label {
   line-height: 1.3em;
+  color: rgba(255,255,255,0.87);
 }
 
 #contact {
