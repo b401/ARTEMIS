@@ -1,9 +1,19 @@
 server:
   listen: 0.0.0.0
   port: 8080
+  url: https://uauth.io
+index:
+  slogan: 仕方がない
+  title: i401
+  github: b401
+  skills:
+    - Go, Rust, C, Powershell and other stuff
+    - Useless (and useful) Microsoft knowledge
+    - GNU/Linux connoisseur
+    - Red/Blue and purple team
 contact:
   mail: sec@uauth.io
-  matrix: "@i401:xn--vl1a.moe"
+  matrix: "@i400:xn--vl1a.moe"
   threema: WDVTAHX7
 content:
   secret: 

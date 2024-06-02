@@ -1,6 +1,7 @@
-use crate::handlers::{
+use crate::{app, handlers::{
     post::{ContextState, Metadata},
     status,
+}
 };
 use askama_axum::Template;
 use axum::extract::{Extension, Path};
@@ -11,7 +12,6 @@ use serde::Deserialize;
 use serde_yaml::Value;
 use std::io::{Read, Seek, SeekFrom};
 use std::path::Path as pathPath;
-use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
 
 #[derive(Debug, Default, Clone)]
@@ -30,16 +30,23 @@ pub struct WikiIndex {
     documents: Vec<String>,
     current: String,
     folders: Vec<String>,
+    site: String,
+    title: Option<String>,
 }
+
 
 #[debug_handler]
 pub async fn wiki_posts(
-    Path(path): Path<PathBuf>,
+    path: Option<Path<String>>,
     Extension(posts): Extension<Arc<Mutex<ContextState>>>,
+    Extension(site): Extension<String>,
+    Extension(index): Extension<app::config::IndexPage>,
 ) -> Result<WikiIndex, status::ErrorHandler> {
     let wiki_posts = posts.lock().unwrap().wiki.clone();
-    let current = path.to_string_lossy().to_string().replacen('/', "", 1);
-
+    let current = match path {
+        Some(path) => path.to_string(),
+        None => "".to_string(),
+    };
     let filtered: Vec<WikiPost> = wiki_posts
         .iter()
         .filter(|a| pathPath::new(&a.location).starts_with(&current))
@@ -52,7 +59,7 @@ pub async fn wiki_posts(
         .map(|post| {
             post.location
                 .replacen(&current, "", 1)
-                .trim_start_matches('/')
+                //.trim_start_matches('/')
                 .to_string()
         })
         .map(|post| post.split('/').next().unwrap().to_string())
@@ -62,6 +69,7 @@ pub async fn wiki_posts(
     children.sort();
     children.dedup();
 
+
     // only get directories
     let folders: Vec<String> = children
         .iter()
@@ -69,12 +77,14 @@ pub async fn wiki_posts(
         .cloned()
         .collect();
 
-    // only get directories
+
+    // only get documents
     let documents: Vec<String> = children
         .iter()
         .filter(|post| post.ends_with(".md"))
         .cloned()
         .collect();
+
 
     let content: Option<WikiPost> = filtered
         .iter()
@@ -86,6 +96,7 @@ pub async fn wiki_posts(
     if content.is_none() && content.is_none() && children.is_empty() {
         return Err(status::ErrorHandler {
             code: StatusCode::NOT_FOUND,
+            msg: "post not found".to_string()
         });
     }
 
@@ -94,6 +105,8 @@ pub async fn wiki_posts(
         documents,
         current,
         folders,
+        site: site.to_string(),
+        title: index.title,
     })
 }
 
@@ -133,7 +146,7 @@ fn post(path: String, dir: String) -> Result<WikiPost, serde_yaml::Error> {
             .to_string_lossy()
             .to_string(),
         metadata,
-        content,
+        content
     })
 }
 

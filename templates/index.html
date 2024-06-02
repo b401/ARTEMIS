@@ -5,20 +5,35 @@
 <div>
   <img src="/static/bg.gif" id="bg"></img>
 <article>
-<h1 id="i4">i401</h1>
-<h2>仕方がない</h2>
+  {% if let Some(title) = title %}
+  <h1 id="i4">{{ title }}</h1>
+  {% else %}
+    <h1 id="i4">Welcome</h1>
+  {% endif %}
+  {% if let Some(slogan) = slogan %}
+    <h2>{{slogan}}</h2>
+  {% endif %}
 <dl>
-  <dt><h2>Skillz</h3></dt>
-  <dd>Go, Rust, C, Powershell and other stuff</dd>
-  <dd>Useless (and useful) Microsoft knowledge</dd>
-  <dd>GNU/Linux connoisseur</dd>
-  <dd>Red/Blue and purple team</dd>
-  <dt><h2>Linkz</h3></dt>
-  <dd><a href="https://github.com/b401">GitHub</a></dd>
+  {% if let Some(skills) = skills %}
+    <dt><h2>Skillz</h3></dt>
+    {% for skill in skills %}
+      <dd>{{skill}}</dd>
+    {% endfor%}
+  {% endif %}
+  {% if let Some(github) = github %}
+    <dt><h2>Linkz</h3></dt>
+    <dd><a href="https://github.com/{{github}}">GitHub</a></dd>
+  {% endif %}
   <dt><h2>Contact</h3></dt>
-  <dd><a href="mailto:i401@uauth.io">Mail</a></dd>
-  <dd>Matrix</dd>
-  <dd>Threema</dd>
+  {% if let Some(mail) = mail %}
+    <dd><a href="mailto:{{ mail }}">Mail</a></dd>
+  {% endif %}
+  {% if matrix.is_some() %}
+    <dd>Matrix</dd>
+  {% endif %}
+  {% if threema.is_some() %}
+    <dd>Threema</dd>
+  {% endif %}
 </dl>
 </article>
 <div>

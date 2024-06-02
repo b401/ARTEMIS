@@ -3,32 +3,34 @@ use crate::handlers::{
     post::{load, ContextState},
     wiki::load as wikiLoad,
 };
+use axum::extract::Request;
 use axum::{
     async_trait,
-    extract::{Extension, FromRequest, RawBody, RequestParts},
-    http::{HeaderMap, StatusCode},
+    extract::{Extension, FromRequestParts},
+    http::{HeaderMap, StatusCode, request::Parts},
 };
-use hyper::body::{to_bytes, Bytes};
+use axum_macros::debug_handler;
 use serde::Deserialize;
 use std::sync::{Arc, Mutex};
 
 const X_HUB_SIGNATURE_256: &str = "x-hub-signature-256";
-#[derive(Deserialize)]
+#[derive(Deserialize,Debug)]
 pub struct GithubSecret(String);
 
 #[async_trait]
-impl<B> FromRequest<B> for GithubSecret
-where
-    B: Send,
+impl<S> FromRequestParts<S> for GithubSecret 
+where 
+    S: Send + Sync,
 {
     type Rejection = (StatusCode, &'static str);
 
-    async fn from_request(req: &mut RequestParts<B>) -> Result<Self, Self::Rejection> {
-        let headers = req.headers();
-        github_secret(headers).map(Self).ok_or((
-            StatusCode::INTERNAL_SERVER_ERROR,
-            "Can't determine authentication header",
-        ))
+    async fn from_request_parts(parts: &mut Parts, _state: &S) -> Result<Self, Self::Rejection> {
+        github_secret(&parts.headers)
+            .map(Self)
+            .ok_or((
+                StatusCode::INTERNAL_SERVER_ERROR,
+                "Can't determine authentication header",
+            ))
     }
 }
 
@@ -62,12 +64,16 @@ fn github_secret(headers: &HeaderMap) -> Option<String> {
         .and_then(|s| s.trim().parse::<String>().ok())
 }
 
+#[debug_handler]
 pub async fn update(
     GithubSecret(user_agent): GithubSecret,
-    RawBody(body): RawBody,
     Extension(context): Extension<Arc<Mutex<ContextState>>>,
+    request: Request,
 ) -> StatusCode {
-    let body: Bytes = to_bytes(body).await.expect("Failed to access body");
+    let body = match axum::body::to_bytes(request.into_body(),usize::MAX).await {
+        Ok(body) => body, 
+        Err(_) => return StatusCode::INTERNAL_SERVER_ERROR,
+    };
     let mut cnt = context.lock().expect("could not lock mutex");
     let mut verifier = Vec::with_capacity(cnt.repos.len());
     println!("Got a new pull request...");

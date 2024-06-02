@@ -13,7 +13,12 @@
 {% block content %}
   <dt><h1 id="url_wiki">Wiki : ./{{ current }}</h1></dt>
   <div id="navbar_wiki">
-  <p> <a href="../">../</a> </p>
+  {% match content %}
+    {% when Some with (_) %}
+      <p> <a href="./">../</a> </p>
+    {% when None %}
+    <p> <a href="../">../</a> </p>
+  {% endmatch %}
   {% if folders.len() > 0 || documents.len() > 0 %}
   <ul>
 	{% for i in folders%}

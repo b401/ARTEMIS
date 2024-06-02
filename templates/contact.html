@@ -11,9 +11,11 @@
 	<label>【 Matrix 】</label>
 	<p>{{ matrix }}</p>
   </div>
+  {% if threema.len() > 1 %}
   <div class="info">
 	<label> Threema </label>
 	<p>{{ threema }}</p>
   </div>
+  {% endif %}
 </article>
 {% endblock %}

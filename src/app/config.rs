@@ -5,6 +5,7 @@ use serde_yaml;
 pub struct Server {
     pub listen: String,
     pub port: u16,
+    pub host: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -27,10 +28,18 @@ pub struct Blog {
 }
 
 #[derive(Debug, Deserialize, Clone)]
+pub struct IndexPage {
+    pub slogan: Option<String>,
+    pub title: Option<String>,
+    pub skills: Option<Vec<String>>,
+    pub github: Option<String>,
+}
+
+#[derive(Debug, Deserialize, Clone)]
 pub struct Contact {
-    pub mail: String,
-    pub matrix: String,
-    pub threema: String,
+    pub mail: Option<String>,
+    pub matrix: Option<String>,
+    pub threema: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -38,6 +47,7 @@ pub struct Config {
     pub server: Server,
     pub content: Content,
     pub contact: Contact,
+    pub index: IndexPage,
 }
 
 impl Config {
@@ -49,11 +59,13 @@ impl Config {
         let server = config_data.server;
         let content = config_data.content;
         let contact = config_data.contact;
+        let index = config_data.index;
 
         Ok(Config {
             server,
             content,
             contact,
+            index,
         })
     }
 }

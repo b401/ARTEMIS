@@ -3,19 +3,19 @@
   <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
     {% block meta %}{% endblock %}
   </head>
   <body>
-	{# dumb solution lol #}
-	{% let site = "https://uauth.io" %}
     <div id="container">
 	  <header>
 		<nav class="main-nav" role="navigation" aria-label="Main menu">
-		  <a href="{{site}}" class="nav-brand logo-brand">i401</a>
+		  <a href="{{site}}" class="nav-brand logo-brand">
+      {% if let Some(title) = title %}{{ title }}{% else %}Home{%endif%}</a>
 		  -
 		  <a href="{{site}}/blog">Blog</a>
-		  -
+      -
 		  <a href="{{site}}/wiki">Wiki</a>
 		  -
 		  <a href="{{site}}/contact">Contact</a>
@@ -27,7 +27,11 @@
 	<footer>
 	  <hr>
 	  <span>
-	  >> This <a href="https://github.com/b401/artemis">blog</a>.
+    {% if let Some(title) = title %}
+      {% if site == "https://uauth.io" %}
+	      >> This <a href="https://github.com/b401/artemis">blog</a>.
+      {% endif %}
+    {% endif %}
 	  </span>
 	</footer>
     </div>
