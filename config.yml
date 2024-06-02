@@ -1,7 +1,7 @@
 server:
   listen: 0.0.0.0
   port: 8080
-  url: https://uauth.io
+  host: https://uauth.io
 index:
   slogan: 仕方がない
   title: i401
@@ -16,7 +16,7 @@ contact:
   matrix: "@i400:xn--vl1a.moe"
   threema: WDVTAHX7
 content:
-  secret: 
+  secret: super-secret-webhook-key 
   wiki:
     repository: https://github.com/b401/wiki.git
     path: /tmp/wiki
