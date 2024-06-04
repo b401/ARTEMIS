@@ -44,8 +44,8 @@ pub async fn blog_post(
     let post_list = posts.lock().unwrap().posts.clone();
     match post_list
         .iter()
+        .find(|&i| i.metadata.title == title)
         .cloned()
-        .find(|i| i.metadata.title == title)
     {
         Some(post_entry) => Ok(BlogPost {
             content: post_entry.content,
