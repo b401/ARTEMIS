@@ -15,7 +15,9 @@ mod handlers {
     pub mod wiki;
 }
 use axum::{
-    extract::Extension, http::StatusCode, routing::{post,get,get_service}, Router
+    extract::Extension,
+    routing::{get, get_service, post},
+    Router,
 };
 use std::sync::{Arc, Mutex};
 use tower_http::services::ServeDir;
@@ -34,7 +36,11 @@ struct Index {
 }
 
 #[debug_handler]
-async fn index(Extension(site): Extension<String>, Extension(contact): Extension<app::config::Contact>, Extension(index): Extension<app::config::IndexPage>) -> Index {
+async fn index(
+    Extension(site): Extension<String>,
+    Extension(contact): Extension<app::config::Contact>,
+    Extension(index): Extension<app::config::IndexPage>,
+) -> Index {
     Index {
         site,
         slogan: index.slogan,
@@ -59,8 +65,8 @@ struct Contact {
 }
 
 async fn contact(
-    Extension(details): Extension<app::config::Contact>, 
-    Extension(site): Extension<String>, 
+    Extension(details): Extension<app::config::Contact>,
+    Extension(site): Extension<String>,
     Extension(index): Extension<app::config::IndexPage>,
 ) -> Contact {
     Contact {
@@ -133,7 +139,7 @@ async fn main() {
         wiki: handlers::wiki::load(&settings.content.wiki.path).unwrap(),
         // Always set the blog path as first element and the wiki path as second element.
         repos: vec![settings.content.blog.path, settings.content.wiki.path],
-        secret: settings.content.secret.expect("No github secret found.")
+        secret: settings.content.secret.expect("No github secret found."),
     }));
 
     let middleware = tower::ServiceBuilder::new()

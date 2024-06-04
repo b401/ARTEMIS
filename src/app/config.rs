@@ -68,9 +68,9 @@ impl Config {
                 Ok(val) => Some(val),
                 // panic if there is no secret defined at all
                 Err(_) => {
-                    println!("No GITHUB_SECRET environment variable found.") ;
+                    println!("No GITHUB_SECRET environment variable found.");
                     None
-                },
+                }
             };
         };
 

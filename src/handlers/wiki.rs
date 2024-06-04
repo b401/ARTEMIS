@@ -1,7 +1,9 @@
-use crate::{app, handlers::{
-    post::{ContextState, Metadata},
-    status,
-}
+use crate::{
+    app,
+    handlers::{
+        post::{ContextState, Metadata},
+        status,
+    },
 };
 use askama_axum::Template;
 use axum::extract::{Extension, Path};
@@ -96,7 +98,7 @@ pub async fn wiki_posts(
     if content.is_none() && content.is_none() && children.is_empty() {
         return Err(status::ErrorHandler {
             code: StatusCode::NOT_FOUND,
-            msg: "post not found".to_string()
+            msg: "post not found".to_string(),
         });
     }
 
@@ -146,7 +148,7 @@ fn post(path: String, dir: String) -> Result<WikiPost, serde_yaml::Error> {
             .to_string_lossy()
             .to_string(),
         metadata,
-        content
+        content,
     })
 }
 

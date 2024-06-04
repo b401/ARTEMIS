@@ -7,19 +7,19 @@ use axum::extract::Request;
 use axum::{
     async_trait,
     extract::{Extension, FromRequestParts},
-    http::{HeaderMap, StatusCode, request::Parts},
+    http::{request::Parts, HeaderMap, StatusCode},
 };
 use axum_macros::debug_handler;
 use serde::Deserialize;
 use std::sync::{Arc, Mutex};
 
 const X_HUB_SIGNATURE_256: &str = "x-hub-signature-256";
-#[derive(Deserialize,Debug)]
+#[derive(Deserialize, Debug)]
 pub struct GithubSecret(String);
 
 #[async_trait]
-impl<S> FromRequestParts<S> for GithubSecret 
-where 
+impl<S> FromRequestParts<S> for GithubSecret
+where
     S: Send + Sync,
 {
     type Rejection = (StatusCode, &'static str);
@@ -70,8 +70,8 @@ pub async fn update(
     Extension(context): Extension<Arc<Mutex<ContextState>>>,
     request: Request,
 ) -> StatusCode {
-    let body = match axum::body::to_bytes(request.into_body(),usize::MAX).await {
-        Ok(body) => body, 
+    let body = match axum::body::to_bytes(request.into_body(), usize::MAX).await {
+        Ok(body) => body,
         Err(_) => return StatusCode::INTERNAL_SERVER_ERROR,
     };
     let mut cnt = context.lock().expect("could not lock mutex");

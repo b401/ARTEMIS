@@ -26,11 +26,15 @@ pub struct BlogPost {
 
 pub async fn blog(
     Extension(posts): Extension<Arc<Mutex<post::ContextState>>>,
-    Extension(site): Extension<String>, 
+    Extension(site): Extension<String>,
     Extension(index): Extension<IndexPage>,
 ) -> BlogIndex {
     let post_list = posts.lock().unwrap().posts.clone();
-    BlogIndex { posts: post_list, site, title: index.title}
+    BlogIndex {
+        posts: post_list,
+        site,
+        title: index.title,
+    }
 }
 
 pub async fn blog_post(

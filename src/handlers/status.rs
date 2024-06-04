@@ -1,7 +1,7 @@
 use askama_axum::Template;
 use axum::http::StatusCode;
 
-#[derive(Template,Debug)]
+#[derive(Template, Debug)]
 #[template(path = "error.html")]
 pub struct ErrorHandler {
     pub code: StatusCode,
