@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use serde_yaml;
+use std::env;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Server {
@@ -16,7 +17,7 @@ pub struct Wiki {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Content {
-    pub secret: String,
+    pub secret: Option<String>,
     pub wiki: Wiki,
     pub blog: Blog,
 }
@@ -57,9 +58,21 @@ impl Config {
         let config_data: Config = serde_yaml::from_reader(config_content)?;
 
         let server = config_data.server;
-        let content = config_data.content;
+        let mut content = config_data.content;
         let contact = config_data.contact;
         let index = config_data.index;
+
+        // grab value from environment if it's not included
+        if content.secret.is_none() {
+            content.secret = match env::var("GITHUB_SECRET") {
+                Ok(val) => Some(val),
+                // panic if there is no secret defined at all
+                Err(_) => {
+                    println!("No GITHUB_SECRET environment variable found.") ;
+                    None
+                },
+            };
+        };
 
         Ok(Config {
             server,

@@ -133,7 +133,7 @@ async fn main() {
         wiki: handlers::wiki::load(&settings.content.wiki.path).unwrap(),
         // Always set the blog path as first element and the wiki path as second element.
         repos: vec![settings.content.blog.path, settings.content.wiki.path],
-        secret: settings.content.secret,
+        secret: settings.content.secret.expect("No github secret found.")
     }));
 
     let middleware = tower::ServiceBuilder::new()
