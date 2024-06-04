@@ -26,13 +26,7 @@ impl Ord for PostList {
 
 impl PartialOrd for PostList {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        if !&self.metadata.date.is_empty() && !&other.metadata.date.is_empty() {
-            let date1 = NaiveDate::parse_from_str(&self.metadata.date, DATEFORMAT).unwrap();
-            let date2 = NaiveDate::parse_from_str(&other.metadata.date, DATEFORMAT).unwrap();
-            Some(date1.cmp(&date2))
-        } else {
-            None
-        }
+        Some(self.cmp(other))
     }
 }
 
