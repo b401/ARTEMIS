@@ -5,7 +5,7 @@ use axum::http::StatusCode;
 #[template(path = "error.html")]
 pub struct ErrorHandler {
     pub code: StatusCode,
-    pub msg: String
+    pub msg: String,
 }
 
 pub async fn code_404() -> ErrorHandler {
