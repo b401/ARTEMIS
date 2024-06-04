@@ -1,6 +1,7 @@
 use askama_axum::Template;
 use axum::handler::HandlerWithoutStateExt;
 use axum_macros::debug_handler;
+use handlers::status;
 use std::process::exit;
 mod app {
     pub mod config;
@@ -52,7 +53,6 @@ async fn index(
         threema: contact.threema,
     }
 }
-
 
 #[derive(Template)]
 #[template(path = "contact.html")]
@@ -132,7 +132,6 @@ async fn main() {
         .unwrap()
         .to_string();
 
-
     // load initial post list
     let context_state = Arc::new(Mutex::new(handlers::post::ContextState {
         posts: handlers::post::load(&settings.content.blog.path).unwrap(),
@@ -163,36 +162,31 @@ async fn main() {
         .route("/contact", get(contact))
         .route("/healthz", get(|| async { "health" }))
         .route("/update", post(handlers::update::update))
-        .nest_service("/b/images",
-            get_service(ServeDir::new(format!("{}/images", image_blog_path)).not_found_service(
-                (
-                    StatusCode::INTERNAL_SERVER_ERROR,
-                    format!("unhandled server error"),
-                ).into_service()
-        )))
-        .nest_service("/w/images",
-            get_service(ServeDir::new(format!("{}/images", image_wiki_path)).not_found_service(
-                (
-                    StatusCode::INTERNAL_SERVER_ERROR,
-                    format!("unhandled server error"),
-                ).into_service()
-        )))
-        .nest_service("/static",ServeDir::new("./static").not_found_service(
-                (
-                    StatusCode::INTERNAL_SERVER_ERROR,
-                    format!("unhandled server error"),
-                ).into_service()
-        ))
-        .nest_service("/css",ServeDir::new("./css").not_found_service(
-                (
-                    StatusCode::INTERNAL_SERVER_ERROR,
-                    format!("unhandled server error"),
-                ).into_service()
-        ))
+        .nest_service(
+            "/b/images",
+            get_service(
+                ServeDir::new(format!("{}/images", image_blog_path))
+                    .not_found_service(status::internal_error().into_service()),
+            ),
+        )
+        .nest_service(
+            "/w/images",
+            get_service(
+                ServeDir::new(format!("{}/images", image_wiki_path))
+                    .not_found_service(status::internal_error().into_service()),
+            ),
+        )
+        .nest_service(
+            "/static",
+            ServeDir::new("./static").not_found_service(status::internal_error().into_service()),
+        )
+        .nest_service(
+            "/css",
+            ServeDir::new("./css").not_found_service(status::internal_error().into_service()),
+        )
         // global 404 fallback
         .fallback(handlers::status::code_404)
         .layer(middleware);
-
 
     let listen = &format!("{}:{}", settings.server.listen, settings.server.port);
     println!("A R T E M I S\nlistening on : {}", &listen);

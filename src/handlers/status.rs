@@ -22,12 +22,9 @@ pub async fn code_generic(code: u16) -> ErrorHandler {
     }
 }
 
-// impl IntoResponse for ErrorHandler {
-//     fn into_response(self) -> Response {
-//         // Convert your ErrorHandler to a response
-//         // This is a basic example; adjust according to your error handling logic
-//         let error_message = format!("Error: {:?}", self);
-//         (axum::http::StatusCode::INTERNAL_SERVER_ERROR, error_message).into_response()
-//     }
-// }}
-
+pub fn internal_error() -> (StatusCode, String) {
+    (
+        StatusCode::INTERNAL_SERVER_ERROR,
+        "unhandled server error".to_string(),
+    )
+}

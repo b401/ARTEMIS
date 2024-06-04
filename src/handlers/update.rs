@@ -25,12 +25,10 @@ where
     type Rejection = (StatusCode, &'static str);
 
     async fn from_request_parts(parts: &mut Parts, _state: &S) -> Result<Self, Self::Rejection> {
-        github_secret(&parts.headers)
-            .map(Self)
-            .ok_or((
-                StatusCode::INTERNAL_SERVER_ERROR,
-                "Can't determine authentication header",
-            ))
+        github_secret(&parts.headers).map(Self).ok_or((
+            StatusCode::INTERNAL_SERVER_ERROR,
+            "Can't determine authentication header",
+        ))
     }
 }
 

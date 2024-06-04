@@ -36,7 +36,6 @@ pub struct WikiIndex {
     title: Option<String>,
 }
 
-
 #[debug_handler]
 pub async fn wiki_posts(
     path: Option<Path<String>>,
@@ -71,7 +70,6 @@ pub async fn wiki_posts(
     children.sort();
     children.dedup();
 
-
     // only get directories
     let folders: Vec<String> = children
         .iter()
@@ -79,14 +77,12 @@ pub async fn wiki_posts(
         .cloned()
         .collect();
 
-
     // only get documents
     let documents: Vec<String> = children
         .iter()
         .filter(|post| post.ends_with(".md"))
         .cloned()
         .collect();
-
 
     let content: Option<WikiPost> = filtered
         .iter()
@@ -118,11 +114,10 @@ fn post(path: String, dir: String) -> Result<WikiPost, serde_yaml::Error> {
         "loading wiki: {}",
         new_path.file_stem().unwrap().to_str().unwrap()
     );
-    let mut file_reader = std::fs::File::open(&new_path).expect("Could not open file");
+    let mut file_reader = std::fs::File::open(new_path).expect("Could not open file");
     let mut content = String::new();
 
     let metadata: Metadata = match serde_yaml::Deserializer::from_reader(&file_reader)
-        .into_iter()
         .take(1)
         .next()
     {
