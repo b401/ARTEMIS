@@ -24,13 +24,13 @@ use std::sync::{Arc, Mutex};
 use tower_http::services::ServeDir;
 
 #[derive(Template)]
-#[template(path = "index.html")]
+#[template(path = "index.html", escape = "none")]
 struct Index {
     site: String,
     slogan: Option<String>,
     title: Option<String>,
     skills: Option<Vec<String>>,
-    github: Option<String>,
+    links: Option<Vec<String>>,
     mail: Option<String>,
     matrix: Option<String>,
     threema: Option<String>,
@@ -47,7 +47,7 @@ async fn index(
         slogan: index.slogan,
         title: index.title,
         skills: index.skills,
-        github: index.github,
+        links: index.links,
         mail: contact.mail,
         matrix: contact.matrix,
         threema: contact.threema,

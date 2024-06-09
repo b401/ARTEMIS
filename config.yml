@@ -5,7 +5,8 @@ server:
 index:
   slogan: 仕方がない
   title: i401
-  github: b401
+  links: 
+    - <a href="https://github.com/b401">github</a>
   skills:
     - Go, Rust, C, Powershell and other stuff
     - Useless (and useful) Microsoft knowledge
@@ -13,7 +14,7 @@ index:
     - Red/Blue and purple team
 contact:
   mail: sec@uauth.io
-  matrix: "@i400:xn--vl1a.moe"
+  matrix: "@i4:heimat-erde.network"
   threema: WDVTAHX7
 content:
   secret: super-secret-webhook-key 

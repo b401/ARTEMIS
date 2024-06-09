@@ -20,9 +20,11 @@
       <dd>{{skill}}</dd>
     {% endfor%}
   {% endif %}
-  {% if let Some(github) = github %}
+  {% if let Some(links) = links %}
     <dt><h2>Linkz</h3></dt>
-    <dd>{{ github }}</a></dd>
+    {% for link in links %}
+      <dd>{{ link }}</dd>
+    {% endfor%}
   {% endif %}
   <dt><h2>Contact</h3></dt>
   {% if let Some(mail) = mail %}

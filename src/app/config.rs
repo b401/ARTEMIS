@@ -33,7 +33,7 @@ pub struct IndexPage {
     pub slogan: Option<String>,
     pub title: Option<String>,
     pub skills: Option<Vec<String>>,
-    pub github: Option<String>,
+    pub links: Option<Vec<String>>,
 }
 
 #[derive(Debug, Deserialize, Clone)]
